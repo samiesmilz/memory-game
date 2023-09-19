@@ -1,0 +1,81 @@
+body {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  padding: 50px;
+  padding-top: 15px;
+  background-color: aliceblue;
+  text-align: center;
+}
+
+#intro-text {
+  font-style: oblique;
+  color: mediumvioletred;
+  border-style: dotted;
+  padding: 0 25px;
+  border-radius: 10px;
+  background-color: antiquewhite;
+}
+#title-wrap {
+  border-radius: 25px;
+  border-color: #7fffd47d;
+  border-style: dotted;
+  margin-bottom: 25px;
+  background-color: #7fffd47d;
+}
+#game-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 100px;
+}
+#score {
+  font-weight: bold;
+  font-size: 20px;
+  color: mediumvioletred;
+  padding: 10px 35px;
+  background-color: #7fffd47d;
+  border-radius: 15px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-style: dotted;
+  border-color: aquamarine;
+  border-bottom-style: hidden;
+}
+#board {
+  padding-top: 25px;
+  background-color: rgb(247, 250, 215);
+  border-radius: 25px;
+  border-style: dotted;
+  border-color: aquamarine;
+}
+#game div {
+  border: 1px solid black;
+  width: 15%;
+  height: 200px;
+  margin: 25px 10px;
+  display: inline-block;
+}
+
+#start-btn {
+  font-size: 50px;
+  border-radius: 30px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  padding: 10px 50px;
+  background-color: aquamarine;
+}
+#counter {
+  font-size: 100px;
+  color: mediumorchid;
+  text-align: center;
+  margin-top: 10px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+#record {
+  padding: 10px;
+  font-weight: lighter;
+  color: mediumvioletred;
+  margin: 0;
+  margin-bottom: 15px;
+}
