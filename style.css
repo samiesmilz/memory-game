@@ -27,9 +27,27 @@ body {
   text-align: center;
   font-size: 100px;
 }
+#level-label {
+  font-weight: 150;
+}
+#level {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 15px;
+  padding: 10px 35px;
+  background-color: #7fffd47d;
+  border-radius: 15px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-style: dotted;
+  border-color: aquamarine;
+  border-bottom-style: hidden;
+  width: 200px;
+  outline: none;
+}
 #score {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 15px;
   color: mediumvioletred;
   padding: 10px 35px;
   background-color: #7fffd47d;

@@ -2,31 +2,69 @@
 const gameContainer = document.getElementById("game");
 const startButton = document.getElementById("start-btn");
 const counterElement = document.getElementById("counter");
+const levelSelector = document.getElementById("level");
+
+// Dynamically creating colors
+
+// Function to generate a random RGB color
+function getRandomRGBColor() {
+  const randomColor = () => Math.floor(Math.random() * 256);
+  return `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+}
+
+// Create card divs for the given colors, style the border, and append the divs to the game container.
+function createDivsForColors(colorArray) {
+  const fragment = document.createDocumentFragment();
+  colorArray.forEach((color) => {
+    const newDiv = document.createElement("div");
+    newDiv.dataset.color = color;
+    newDiv.classList.add("card");
+    newDiv.style.borderRadius = "10px";
+    fragment.appendChild(newDiv);
+  });
+  gameContainer.appendChild(fragment);
+}
+
+// Shuffle the array of colors and create divs for each color
+function initializeGame(numPairs) {
+  const randomColorsArray = [];
+  for (let i = 0; i < numPairs; i++) {
+    const generatedColor = getRandomRGBColor();
+    randomColorsArray.push(generatedColor, generatedColor);
+  }
+  const shuffledColors = shuffle(randomColorsArray);
+  createDivsForColors(shuffledColors);
+}
+
+// Dyamically creating colors ends here...
 
 // Define the array of card colors
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-];
+// const COLORS = [
+//   "red",
+//   "blue",
+//   "green",
+//   "orange",
+//   "purple",
+//   "red",
+//   "blue",
+//   "green",
+//   "orange",
+//   "purple",
+// ];
 
 // My variables
-let shuffledColors = shuffle(COLORS);
+// let shuffledColors = shuffle(COLORS);
+let numPairs; // Adjust this to the number of color pairs you want
 let timerInterval;
 let gameInProgress = false;
 let activeCards = [];
 let matches = 0;
 let score = 0;
-let storedLowestScore;
+let storedRecordTime;
+let storedHighestScore;
 let scoreTime;
 let startTime;
+let gameLevel;
 
 // Function to shuffle an array as descibed in (Fisher-Yates algorithm)
 function shuffle(array) {
@@ -41,16 +79,16 @@ function shuffle(array) {
   return array;
 }
 
-// Create card divs for the given colors, style the border and append the div to the game container.
-function createDivsForColors(colorArray) {
-  colorArray.forEach((color) => {
-    const newDiv = document.createElement("div");
-    newDiv.dataset.color = color;
-    newDiv.classList.add("card");
-    newDiv.style.borderRadius = "10px";
-    gameContainer.append(newDiv);
-  });
-}
+// // Create card divs for the given colors, style the border and append the div to the game container.
+// function createDivsForColors(colorArray) {
+//   colorArray.forEach((color) => {
+//     const newDiv = document.createElement("div");
+//     newDiv.dataset.color = color;
+//     newDiv.classList.add("card");
+//     newDiv.style.borderRadius = "10px";
+//     gameContainer.append(newDiv);
+//   });
+// }
 
 // Handle click on a card
 function handleCardClick(event) {
@@ -101,10 +139,11 @@ function checkMatch() {
   activeCards = [];
 
   // Check if all matches are found
-  if (matches === COLORS.length / 2) {
+  if (matches === numPairs) {
     clearInterval(timerInterval);
     gameTime();
     updateLocalScore();
+    getRecord();
     document.getElementById("score").textContent =
       "Congratulations! - Your Score: " + score + " points!";
     gameInProgress = false;
@@ -118,17 +157,42 @@ gameContainer.addEventListener("click", function (event) {
   }
 });
 
+// Set number of pairs based on level
+levelSelector.addEventListener("click", setPairs);
+
 // Start the game when the "Start" button is clicked
 startButton.addEventListener("click", startGame);
 
 // Start a new game
 function startGame() {
   if (!gameInProgress) {
+    getGameLevel();
+    setPairs();
     resetGame();
-    createDivsForColors(shuffle(COLORS));
+    initializeGame(numPairs);
+    // createDivsForColors(shuffle(COLORS));
     startTimer();
     gameInProgress = true;
   }
+}
+
+// Set number of pairs to dislplay
+function setPairs() {
+  const level = levelSelector.value;
+  if (level === "beginner") {
+    numPairs = 5;
+  } else if (level === "intermediate") {
+    numPairs = 9;
+  } else if (level === "advanced") {
+    numPairs = 10;
+  } else {
+    numPairs = 5;
+  }
+}
+
+function getGameLevel() {
+  gameLevel = levelSelector.value;
+  console.log(gameLevel);
 }
 
 // Reset the game state
@@ -159,24 +223,37 @@ function startTimer() {
 
 function updateLocalScore() {
   // Get the lowest score from local storage
-  storedLowestScore = localStorage.getItem("recordTime");
+  storedRecordTime = localStorage.getItem("recordTime");
+  storedHighestScore = localStorage.getItem("storedScore");
 
-  // Check if the current score is lower than the stored lowest score (or if there's no stored score yet)
-  if (storedLowestScore === null || scoreTime < parseInt(storedLowestScore)) {
+  // Check if the current record time is lower than the stored record time (or if there's no stored record timme yet)
+  if (
+    storedRecordTime === null ||
+    (scoreTime < parseInt(storedRecordTime) && storedHighestScore < score)
+  ) {
     // Update the lowest score with the current score
     localStorage.setItem("recordTime", scoreTime);
+    localStorage.setItem("storedScore", score);
   }
 }
 
 // Update the displayed lowest score (record)
 function getRecord() {
-  storedLowestScore = localStorage.getItem("recordTime");
-  console.log(storedLowestScore);
-  const formattedTime = convertTime(storedLowestScore);
+  storedRecordTime = localStorage.getItem("recordTime");
+  storedHighestScore = localStorage.getItem("storedScore");
+
+  console.log(
+    "Record: " +
+      storedHighestScore +
+      " in only :" +
+      storedRecordTime +
+      " seconds!"
+  );
+  const formattedTime = convertTime(storedRecordTime);
   const lowestScoreElement = document.getElementById("record");
   lowestScoreElement.textContent = `Beat your record: ${
-    formattedTime || "N/A"
-  }`;
+    storedHighestScore || "N/A"
+  } in only : ${formattedTime || "N/A"} !`;
   return formattedTime;
 }
 

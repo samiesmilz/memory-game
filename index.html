@@ -10,7 +10,16 @@
       <legend id="intro-text">The Color Match Challenge</legend>
       <h1 id="game-title">Memory Game!</h1>
     </fieldset>
-    <button id="score">Your Score: 0 points!</button>
+    <div id="settings">
+      <label id="level-label" for="level">Select level:</label>
+      <select id="level" name="level">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+      <button id="score">Your Score: 0 points!</button>
+    </div>
+
     <div id="board">
       <div id="game"></div>
       <div id="timer">
