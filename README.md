@@ -1,9 +1,13 @@
+
+<img width="1618" alt="Memory Game By Samie Smilz" src="https://github.com/samiesmilz/memory-game/assets/3438049/73b1e6f5-4f90-425a-9667-9c12d1b02bdb">
+
+
 # Welcome To The Color Match Challenge Memory Game!
 
 The game board consists of cards with different colored backgrounds.
-The goal is to match cards of the same color.How to Play
+The goal is to match cards of the same color.
 
-## To play:
+## How To play:
 
 1. Click on a card to reveal its background color.
 2. Click on a second card to reveal its color.
